@@ -6,9 +6,9 @@ import {
 } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.model';
-import { AuthRegisterDto } from './auth-register.dto';
+import { AuthRegisterDto } from './dto/auth-register.dto';
 import { UserRole } from './user-role.enum';
-import { AuthLoginDto } from './auth-login.dto';
+import { AuthLoginDto } from './dto/auth-login.dto';
 
 @Injectable()
 export class UserRepository extends Repository<User> {
@@ -24,7 +24,7 @@ export class UserRepository extends Repository<User> {
     user.email = email;
     user.salt = await bcrypt.genSalt();
     user.password = await this.hashPassword(password, user.salt);
-    user.role = UserRole.USER;
+    user.role = UserRole.User;
     user.scores = 0;
 
     try {
