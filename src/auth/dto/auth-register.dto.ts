@@ -5,7 +5,6 @@ import {
   MaxLength,
   Matches,
 } from 'class-validator';
-import { UserRole } from '../user-role.enum';
 
 export class AuthRegisterDto {
   @IsString()
