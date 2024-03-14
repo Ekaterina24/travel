@@ -11,7 +11,7 @@ async function bootstrap() {
     helmet.contentSecurityPolicy({
       directives: {
         defaultSrc: ["'self'"],
-        connectSrc: ["'self'", "https://travel-lac-six.vercel.app/"],
+        connectSrc: ["'self'", "https://travel-lac-six.vercel.app"],
       },
     })
   );
