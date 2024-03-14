@@ -6,21 +6,16 @@ import { Trip } from './trip.model';
 
 @Injectable()
 export class TripService {
-    constructor(
-        private tripRepository: TripRepository,
-      ) {}
+  constructor(private tripRepository: TripRepository) {}
 
-    async createTrip(
-        createTripDto: CreateTripDto, 
-        user: User
-      ): Promise<CreateTripDto> {
-        return this.tripRepository.createTrip(createTripDto, user);
-    }
-    
-    getTrips(
-        user: User  
-      ): Promise<Trip[]> {
-        return this.tripRepository.getTrips(user);
-      }
+  async createTrip(
+    createTripDto: CreateTripDto,
+    user: User,
+  ): Promise<CreateTripDto> {
+    return this.tripRepository.createTrip(createTripDto, user);
+  }
 
+  getTripsByUser(user: User): Promise<Trip[]> {
+    return this.tripRepository.getTripsByUser(user);
+  }
 }

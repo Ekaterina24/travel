@@ -1,9 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
 import { DayPlacesService } from './day_places.service';
 import { DayPlacesDto } from './dto/day-places.dto';
 import { DayPlaces } from './day-places.model';
+import { AuthGuard } from '@nestjs/passport';
+import { DayListDto } from './dto/day-list.dto';
 
 @Controller('day-places')
+@UseGuards(AuthGuard())
 export class DayPlacesController {
     constructor(private dayPlacesService: DayPlacesService) {}
 
@@ -13,6 +16,14 @@ export class DayPlacesController {
     ): Promise<DayPlaces> {
         return this.dayPlacesService.addPlaceToDay(dto)
     }
+
+    @Get()
+    getDayPlacesByUser(
+      @Req() req,
+    ): Promise<DayPlaces[]> {
+      return this.dayPlacesService.getDayPlacesByUser(req.user);
+    }
+
 
     
 }

@@ -19,9 +19,9 @@ export class TripController {
     }
 
     @Get()
-    getTrips(
+    getTripsByUser(
       @Req() req,
     ): Promise<Trip[]> {
-      return this.tripService.getTrips(req.user);
+      return this.tripService.getTripsByUser(req.user);
     }
 }

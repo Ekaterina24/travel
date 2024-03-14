@@ -43,7 +43,7 @@ export class TripRepository extends Repository<Trip> {
     return trip;
   }
 
-  async getTrips(
+  async getTripsByUser(
     user: User  
   ): Promise<Trip[]> {
     const query = this.createQueryBuilder('trip');

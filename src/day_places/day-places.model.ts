@@ -1,13 +1,12 @@
 import {
   BaseEntity,
   Entity,
-  OneToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   Column,
+  JoinColumn,
 } from 'typeorm';
 import { Trip } from 'src/trip/trip.model';
-import { Place } from 'src/place/place.model';
 
 @Entity()
 export class DayPlaces extends BaseEntity {
@@ -15,9 +14,9 @@ export class DayPlaces extends BaseEntity {
   id: number;
 
   @ManyToOne((type) => Trip, (trip) => trip.id, { eager: false })
+    //  @JoinColumn({name: 'tripId'})
   tripId: number;
 
-    //   @OneToMany((type) => Place, (place) => place.id, { eager: true })
     @Column()
   placeId: string;
 

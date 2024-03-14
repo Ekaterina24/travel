@@ -1,5 +1,3 @@
-import { Place } from "src/place/place.model";
-
 
 export class DayPlacesDto {
   
