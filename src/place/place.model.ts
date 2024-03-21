@@ -1,4 +1,4 @@
-import { DayPlaces } from 'src/day_places/day-places.model';
+import { City } from 'src/city/city.model';
 import {
   BaseEntity,
   Column,
@@ -22,7 +22,7 @@ export class Place extends BaseEntity {
   name: string;
 
   @Column()
-  description: string = 'desc';
+  description: string;
 
   @Column()
   addressId: string;
@@ -48,6 +48,6 @@ export class Place extends BaseEntity {
   @Column()
   updated_at: Date;
 
-  @ManyToOne(() => DayPlaces, (dayPlaces) => dayPlaces.dateVisiting)
-  dayPlaces: DayPlaces;
+  @ManyToOne((type) => City, (city) => city.generatedId, { eager: false })
+  cityId: string;
 }

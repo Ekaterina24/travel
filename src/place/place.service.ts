@@ -8,6 +8,8 @@ import { PlaceRepository } from './place.repository';
 import { GetPlaceApiDto } from './dto/get-place-api.dto';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { DayPlaces } from 'src/day_places/day-places.model';
+import { City } from 'src/city/city.model';
+import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
 
 @Injectable()
 export class PlaceService {
@@ -20,8 +22,8 @@ export class PlaceService {
   //     return this.tripRepository.createTrip(createTripDto, user);
   // }
 
-  getPlaces(): Promise<Place[]> {
-    return this.placeRepository.getPlaces();
+  getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
+    return this.placeRepository.getPlaces(dto);
     }
     
     getPlaceById(id: string): Promise<Place> {

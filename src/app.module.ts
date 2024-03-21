@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { TripModule } from './trip/trip.module';
 import { DayPlacesModule } from './day_places/day_places.module';
 import { PlaceModule } from './place/place.module';
+import { CityModule } from './city/city.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { PlaceModule } from './place/place.module';
     AuthModule,
     TripModule,
     DayPlacesModule,
-    PlaceModule
+    PlaceModule,
+    CityModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -8,4 +8,8 @@ export class GetPlacesFilterDto {
   @IsOptional()
   @IsNotEmpty()
   type: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  cityId: string;
 }

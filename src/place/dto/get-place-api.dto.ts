@@ -1,4 +1,3 @@
-import { Double } from 'typeorm';
 
 export class GetPlaceApiDto {
   id: string;
@@ -9,6 +8,7 @@ export class GetPlaceApiDto {
   lat: string;
   lon: string;
   addressId: string;
+  cityId: string;
 }
 
 // class Point {

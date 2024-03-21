@@ -14,6 +14,8 @@ import axios from 'axios';
 import { GetPlaceApiDto } from './dto/get-place-api.dto';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { DayPlaces } from 'src/day_places/day-places.model';
+import { City } from 'src/city/city.model';
+import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
 
 @Injectable()
 export class PlaceRepository extends Repository<Place> {
@@ -49,8 +51,15 @@ export class PlaceRepository extends Repository<Place> {
   //     return trip;
   //   }
 
-  async getPlaces(): Promise<Place[]> {
+  async getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
+    const { cityId } = dto;
     const query = this.createQueryBuilder('place');
+
+    if (cityId) {
+      query.andWhere('(place.cityId = :cityId)', {
+        cityId: cityId,
+      });
+    }
 
     try {
       const places = await query.getMany();
@@ -63,7 +72,7 @@ export class PlaceRepository extends Repository<Place> {
   async getPlacesFromApi(
     filterDto: GetPlacesFilterDto,
   ): Promise<GetPlaceApiDto[]> {
-    const { q, type } = filterDto;
+    const { q, type, cityId } = filterDto;
     let response;
     let page = 1;
     const newPlaces: GetPlaceApiDto[] = [];
@@ -73,7 +82,7 @@ export class PlaceRepository extends Repository<Place> {
     if (page == 1) {
       response = await axios({
         method: 'GET',
-        url: `https://catalog.api.2gis.com/3.0/items?q=${q} Великий Новгород&fields=items.address,items.description,items.point,items.schedule&type=adm_div.country,adm_div.city,${type}&key=7ede747a-5d2c-4b6e-b515-ad724eff80f1&page=${page}`,
+        url: `https://catalog.api.2gis.com/3.0/items?q=${q} &fields=items.address,items.description,items.point,items.schedule&type=adm_div.country,adm_div.city,${type}&key=4efb54ac-4c76-4b0a-901a-e352124932de&page=${page}`,
       }).catch(() => {
         throw new ForbiddenException('API not available');
       });
@@ -89,7 +98,7 @@ export class PlaceRepository extends Repository<Place> {
     for (page; page < number; page++) {
       response = await axios({
         method: 'GET',
-        url: `https://catalog.api.2gis.com/3.0/items?q=${q} Великий Новгород&fields=items.address,items.description,items.point,items.schedule&type=adm_div.country,adm_div.city,${type}&key=7ede747a-5d2c-4b6e-b515-ad724eff80f1&page=${page}`,
+        url: `https://catalog.api.2gis.com/3.0/items?q=${q} &fields=items.address,items.description,items.point,items.schedule&type=adm_div.country,adm_div.city,${type}&key=4efb54ac-4c76-4b0a-901a-e352124932de&page=${page}`,
       }).catch(() => {
         throw new ForbiddenException('API not available');
       });
@@ -114,6 +123,7 @@ export class PlaceRepository extends Repository<Place> {
         if (el.address == undefined) {
           place.addressId = ' ';
         } else place.addressId = el.address.building_id;
+        place.cityId = cityId;
         newPlaces.push(place);
       }
     }
@@ -123,6 +133,7 @@ export class PlaceRepository extends Repository<Place> {
 
   async insertDataFromApi(filterDto: GetPlacesFilterDto): Promise<Place[]> {
     const data = await this.getPlacesFromApi(filterDto);
+
     const places = data.map((item) => {
       const place = new Place();
       place.id = item.id;
@@ -140,7 +151,9 @@ export class PlaceRepository extends Repository<Place> {
       place.is_visited = false;
       place.is_favourite = false;
       place.updated_at = new Date();
-      // place.date = ' ';
+      place.cityId = item.cityId;
+
+      console.log(`place ${JSON.stringify(place)}`);
 
       try {
         place.save();
@@ -158,7 +171,17 @@ export class PlaceRepository extends Repository<Place> {
   }
 
   mapperDtoToPlace(dto: GetPlaceApiDto): Place {
-    const { id, name, description, type, subtype, lat, lon, addressId } = dto;
+    const {
+      id,
+      name,
+      description,
+      type,
+      subtype,
+      lat,
+      lon,
+      addressId,
+      cityId,
+    } = dto;
     const place = new Place();
     place.id = id;
     if (name == undefined) {
@@ -173,7 +196,7 @@ export class PlaceRepository extends Repository<Place> {
     place.longitude = lon;
     place.latitude = lat;
     place.updated_at = new Date();
-    // place.date = " ";
+    place.cityId = cityId;
     return place;
   }
 
@@ -215,14 +238,14 @@ export class PlaceRepository extends Repository<Place> {
         it.longitude = item.lon;
         it.latitude = item.lat;
         it.updated_at = new Date();
-        // it.date = " ";
+        it.cityId = item.cityId;
         it.save();
       });
     });
     return true;
   }
 
-  async getPlacesByDay(date: string): Promise<Place[]>  {
+  async getPlacesByDay(date: string): Promise<Place[]> {
     const query = this.createQueryBuilder('place');
     query.andWhere('place.date = :date', { date: date });
 

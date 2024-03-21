@@ -8,7 +8,7 @@ import { Trip } from './trip.model';
 export class TripService {
   constructor(private tripRepository: TripRepository) {}
 
-  async createTrip(
+  createTrip(
     createTripDto: CreateTripDto,
     user: User,
   ): Promise<CreateTripDto> {

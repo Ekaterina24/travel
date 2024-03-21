@@ -2,17 +2,15 @@ import {
   Controller,
   Get,
   Post,
-  Req,
   ValidationPipe,
   Query,
   Patch,
-  Body,
   Param,
 } from '@nestjs/common';
 import { Place } from './place.model';
 import { PlaceService } from './place.service';
-import { GetPlaceApiDto } from './dto/get-place-api.dto';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
+import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
 
 @Controller('place')
 export class PlaceController {
@@ -28,8 +26,10 @@ export class PlaceController {
   // }
 
   @Get()
-  getPlaces(): Promise<Place[]> {
-    return this.placeService.getPlaces();
+  getPlaces(
+    @Query(ValidationPipe) dto: GetPlaceByCityFilterDto
+  ): Promise<Place[]> {
+    return this.placeService.getPlaces(dto);
   }
 
   @Post()
