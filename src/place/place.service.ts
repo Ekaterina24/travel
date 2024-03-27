@@ -30,7 +30,7 @@ export class PlaceService {
         return this.placeRepository.getPlaceById(id);
       }
 
-  insertDataFromApi(filterDto: GetPlacesFilterDto): Promise<Place[]> {
+  insertDataFromApi(filterDto: GetPlacesFilterDto): Promise<void> {
     return this.placeRepository.insertDataFromApi(filterDto);
   }
 

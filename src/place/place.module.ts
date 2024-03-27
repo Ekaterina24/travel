@@ -12,6 +12,9 @@ import { PlaceRepository } from './place.repository';
     AuthModule
   ],
   controllers: [PlaceController],
-  providers: [PlaceService, PlaceRepository]
+  providers: [PlaceService, PlaceRepository],
+  exports: [
+    PlaceRepository
+  ]
 })
 export class PlaceModule {}

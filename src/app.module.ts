@@ -8,6 +8,7 @@ import { TripModule } from './trip/trip.module';
 import { DayPlacesModule } from './day_places/day_places.module';
 import { PlaceModule } from './place/place.module';
 import { CityModule } from './city/city.module';
+import { AudioModule } from './audio/audio.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { CityModule } from './city/city.module';
     TripModule,
     DayPlacesModule,
     PlaceModule,
-    CityModule
+    CityModule,
+    AudioModule
   ],
   controllers: [AppController],
   providers: [AppService],

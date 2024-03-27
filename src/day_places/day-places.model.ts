@@ -14,7 +14,6 @@ export class DayPlaces extends BaseEntity {
   id: number;
 
   @ManyToOne((type) => Trip, (trip) => trip.id, { eager: false })
-    //  @JoinColumn({name: 'tripId'})
   tripId: number;
 
     @Column()

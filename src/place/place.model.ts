@@ -1,17 +1,20 @@
+import { Audio } from 'src/audio/audio.model';
 import { City } from 'src/city/city.model';
 import {
   BaseEntity,
   Column,
   Entity,
+  Index,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
 
 @Entity()
 @Unique(['id'])
+// @Index(['id'], {unique: true})
 export class Place extends BaseEntity {
-
   @PrimaryGeneratedColumn()
   generatedId: number;
 
@@ -50,4 +53,9 @@ export class Place extends BaseEntity {
 
   @ManyToOne((type) => City, (city) => city.generatedId, { eager: false })
   cityId: string;
+
+  @OneToMany(type => Audio, audio => audio.place, {eager: true})
+  audios: Audio[]
+
+  
 }

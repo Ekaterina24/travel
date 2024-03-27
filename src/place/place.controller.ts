@@ -35,7 +35,7 @@ export class PlaceController {
   @Post()
   insertDataFromApi(
       @Query(ValidationPipe) filterDto: GetPlacesFilterDto, 
-  ): Promise<Place[]> {
+  ): Promise<void> {
     return this.placeService.insertDataFromApi(filterDto);
   }
 

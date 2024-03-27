@@ -25,32 +25,6 @@ export class PlaceRepository extends Repository<Place> {
     super(Place, dataSource.createEntityManager());
   }
 
-  //   async createTrip(
-  //     createTripDto: CreateTripDto,
-  //     user: User,
-  //   ): Promise<CreateTripDto> {
-  //     const { date_start, date_finish } = createTripDto;
-
-  //     const trip = new Trip();
-  //     trip.date_start = date_start;
-  //     trip.date_finish = date_finish;
-  //     trip.city = 'Великий Новгород';
-  //     trip.userId = user.id;
-
-  //     try {
-  //       await trip.save();
-  //     } catch (error) {
-  //       this.logger.error(
-  //         `Failed to create a trip for user "${user.username}".
-  //       Data: ${JSON.stringify(createTripDto)}`,
-  //         error.stack,
-  //       );
-  //       throw new InternalServerErrorException();
-  //     }
-
-  //     return trip;
-  //   }
-
   async getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
     const { cityId } = dto;
     const query = this.createQueryBuilder('place');
@@ -60,6 +34,17 @@ export class PlaceRepository extends Repository<Place> {
         cityId: cityId,
       });
     }
+
+    try {
+      const places = await query.getMany();
+      return places;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async getAllPlaces(): Promise<Place[]> {
+    const query = this.createQueryBuilder('place');
 
     try {
       const places = await query.getMany();
@@ -131,10 +116,10 @@ export class PlaceRepository extends Repository<Place> {
     return newPlaces;
   }
 
-  async insertDataFromApi(filterDto: GetPlacesFilterDto): Promise<Place[]> {
+  async insertDataFromApi(filterDto: GetPlacesFilterDto): Promise<void> {
     const data = await this.getPlacesFromApi(filterDto);
 
-    const places = data.map((item) => {
+    data.map((item) => {
       const place = new Place();
       place.id = item.id;
       if (item.name == undefined) {
@@ -153,11 +138,10 @@ export class PlaceRepository extends Repository<Place> {
       place.updated_at = new Date();
       place.cityId = item.cityId;
 
-      console.log(`place ${JSON.stringify(place)}`);
-
       try {
         place.save();
       } catch (error) {
+        console.log(error.code);
         if (error.code === '23505') {
           throw new ConflictException(`Место с ID ${place.id} уже существует.`);
         } else {
@@ -166,8 +150,6 @@ export class PlaceRepository extends Repository<Place> {
       }
       return place;
     });
-
-    return places;
   }
 
   mapperDtoToPlace(dto: GetPlaceApiDto): Place {
