@@ -57,11 +57,11 @@ export class AudioRepository extends Repository<Audio> {
   }
 
   async getAudioListByPlace(
-    getPlaceAudioDto: GetPlaceAudioDto
+    placeId: string
   ): Promise<Audio[]> {
     const query = this.createQueryBuilder('audio');
 
-   query.where('audio.placeId = :placeId', {placeId: getPlaceAudioDto.id});
+   query.where('audio.placeId = :placeId', {placeId: placeId});
 
     try {
       const audioList = await query.getMany();
@@ -71,4 +71,34 @@ export class AudioRepository extends Repository<Audio> {
     }
     
   }
+
+  async getAudioList(): Promise<Audio[]> {
+    const query = this.createQueryBuilder('audio');
+
+    try {
+      const audioList = await query.getMany();
+      return audioList; 
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+    
+  }
+
+  // async getAudioByPlace(): Promise<Audio[]> {
+  //   const query = this.createQueryBuilder('audio')
+  //     .leftJoinAndSelect('audio.place', 'place')
+  //     // .select([
+  //     //   'day_places.placeId',
+  //     //   'day_places.dateVisiting',
+  //     //   'day_places.id',
+  //     // ])
+  //     .where('audio.place = place.id')
+
+  //   try {
+  //     const audioByPlace = await query.getMany();
+  //     return audioByPlace
+  //   } catch (error) {
+  //     throw new InternalServerErrorException();
+  //   }
+  // }
 }

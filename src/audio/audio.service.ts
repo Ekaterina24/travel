@@ -12,9 +12,17 @@ export class AudioService {
         return this.audioRepository.insertAudio()
     }
 
-    getAudioListByPlace(getPlaceAudioDto: GetPlaceAudioDto): Promise<Audio[]> {
-        return this.audioRepository.getAudioListByPlace(getPlaceAudioDto);
-      }
+    getAudioListByPlace(placeId: string): Promise<Audio[]> {
+        return this.audioRepository.getAudioListByPlace(placeId);
+    }
+    
+    getAudioList(): Promise<Audio[]> {
+        return this.audioRepository.getAudioList();
+    }
+    
+    // getAudioByPlace(): Promise<Audio[]> {
+    //     return this.audioRepository.getAudioByPlace();
+    //   }
 
 
 }

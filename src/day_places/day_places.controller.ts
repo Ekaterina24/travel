@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { DayPlacesService } from './day_places.service';
 import { DayPlacesDto } from './dto/day-places.dto';
 import { DayPlaces } from './day-places.model';
@@ -20,8 +20,9 @@ export class DayPlacesController {
     @Get()
     getDayPlacesByUser(
       @Req() req,
+      @Query('date') date: string
     ): Promise<DayPlaces[]> {
-      return this.dayPlacesService.getDayPlacesByUser(req.user);
+      return this.dayPlacesService.getDayPlacesByUser(req.user, date);
     }
 
 

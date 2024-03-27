@@ -22,7 +22,7 @@ export class DayPlacesRepository extends Repository<DayPlaces> {
     return dayPlace;
   }
 
-  async getDayPlacesByUser(user: User): Promise<DayPlaces[]> {
+  async getDayPlacesByUser(user: User, date: string): Promise<DayPlaces[]> {
     const query = this.createQueryBuilder('day_places')
       .leftJoinAndSelect('day_places.tripId', 'trip')
       .leftJoinAndSelect('trip.userId', 'user')
@@ -33,6 +33,12 @@ export class DayPlacesRepository extends Repository<DayPlaces> {
       ])
       .where('trip.userId = :userId', { userId: user.id })
       .andWhere('day_places.tripId = trip.id');
+    
+      if (date) {
+        query.andWhere('(day_places.dateVisiting = :date)', {
+          date: date,
+        });
+      }
 
     try {
       const dayPlaces = await query.getMany();
@@ -41,4 +47,6 @@ export class DayPlacesRepository extends Repository<DayPlaces> {
       throw new InternalServerErrorException();
     }
   }
+
+
 }

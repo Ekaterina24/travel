@@ -14,10 +14,7 @@ export class DayPlacesService {
     return this.dayPlacesRepository.addPlaceToDay(dto);
   }
 
-
-  
-
-  getDayPlacesByUser(user: User): Promise<DayPlaces[]> {
-    return this.dayPlacesRepository.getDayPlacesByUser(user);
+  getDayPlacesByUser(user: User, date: string): Promise<DayPlaces[]> {
+    return this.dayPlacesRepository.getDayPlacesByUser(user, date);
   }
 }

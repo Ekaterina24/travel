@@ -227,15 +227,15 @@ export class PlaceRepository extends Repository<Place> {
     return true;
   }
 
-  async getPlacesByDay(date: string): Promise<Place[]> {
-    const query = this.createQueryBuilder('place');
-    query.andWhere('place.date = :date', { date: date });
+  // async getPlacesByDay(date: string): Promise<Place[]> {
+  //   const query = this.createQueryBuilder('place');
+  //   query.andWhere('place.date = :date', { date: date });
 
-    try {
-      const places = await query.getMany();
-      return places;
-    } catch (error) {
-      throw new InternalServerErrorException();
-    }
-  }
+  //   try {
+  //     const places = await query.getMany();
+  //     return places;
+  //   } catch (error) {
+  //     throw new InternalServerErrorException();
+  //   }
+  // }
 }
