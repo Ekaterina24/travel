@@ -18,4 +18,8 @@ export class TripService {
   getTripsByUser(user: User): Promise<Trip[]> {
     return this.tripRepository.getTripsByUser(user);
   }
+
+  async deleteTripById(id: number, user: User): Promise<void> {
+    await this.tripRepository.delete({id, userId: user.id});
+  }
 }

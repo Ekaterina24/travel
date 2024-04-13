@@ -12,6 +12,7 @@ import { JwtPayload } from './jwt-payload.interface';
 import { User } from './user.model';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
 
 @Injectable()
 export class AuthService {
@@ -57,6 +58,16 @@ export class AuthService {
     return bcrypt.hash(password, salt);
   }
 
+  async getProfile(
+    user: User
+  ): Promise<UserProfileDto> {
+    const newDto = new UserProfileDto();
+    newDto.username = user.username;
+    newDto.email = user.email;
+    newDto.scores = user.scores;
+    return newDto;
+  }
+
   async updateUser(
     id: number,
     newUser: AuthRegisterDto,
@@ -70,4 +81,6 @@ export class AuthService {
     newDto.email = user.email;
     return newDto;
   }
+
+  
 }

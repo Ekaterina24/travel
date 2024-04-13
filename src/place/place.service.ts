@@ -15,13 +15,6 @@ import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
 export class PlaceService {
   constructor(private placeRepository: PlaceRepository) {}
 
-  // async createTrip(
-  //     createTripDto: CreateTripDto,
-  //     user: User
-  //   ): Promise<CreateTripDto> {
-  //     return this.tripRepository.createTrip(createTripDto, user);
-  // }
-
   getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
     return this.placeRepository.getPlaces(dto);
     }
@@ -49,20 +42,4 @@ export class PlaceService {
     // getPlacesByDay(date: string): Promise<Place[]>  {
     //     return this.placeRepository.getPlacesByDay(date);
     // }
-
-  
-
-  // async updateUser(
-  //     id: number,
-  //     newUser: AuthRegisterDto,
-  //   ): Promise<UpdateUserDto> {
-  //       await this.userRepository.update(id, newUser);
-  //       const user = await this.getUserById(id);
-  //       user.password = await this.hashPassword(user.password, user.salt);
-  //       user.save()
-  //     const newDto = new UpdateUserDto();
-  //     newDto.username = user.username;
-  //     newDto.email = user.email;
-  //     return newDto;
-  //   }
 }

@@ -7,19 +7,14 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
-import { User } from 'src/auth/user.model';
 import { Place } from './place.model';
-import { catchError, map } from 'rxjs';
 import axios from 'axios';
 import { GetPlaceApiDto } from './dto/get-place-api.dto';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
-import { DayPlaces } from 'src/day_places/day-places.model';
-import { City } from 'src/city/city.model';
 import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
 
 @Injectable()
 export class PlaceRepository extends Repository<Place> {
-  private logger = new Logger('PlaceRepository');
 
   constructor(dataSource: DataSource) {
     super(Place, dataSource.createEntityManager());

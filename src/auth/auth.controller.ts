@@ -7,6 +7,8 @@ import {
   ParseIntPipe,
   Param,
   UseGuards,
+  Get,
+  Req,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthRegisterDto } from './dto/auth-register.dto';
@@ -15,6 +17,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Roles } from './roles.decorator';
 import { UserRole } from './user-role.enum';
 import { AuthGuard } from '@nestjs/passport';
+import { UserProfileDto } from './dto/user-profile.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -32,6 +35,12 @@ export class AuthController {
     @Body(ValidationPipe) authLoginDto: AuthLoginDto,
   ): Promise<{ accessToken: string }> {
     return this.authService.login(authLoginDto);
+  }
+
+  @Get('profile')
+  @UseGuards(AuthGuard())
+  getProfile(@Req() req): Promise<UserProfileDto> {
+    return this.authService.getProfile(req.user);
   }
 
   @Patch('/:id')
