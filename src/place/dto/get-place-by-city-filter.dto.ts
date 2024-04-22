@@ -4,4 +4,11 @@ export class GetPlaceByCityFilterDto {
   @IsOptional()
   @IsNotEmpty()
   cityId: number;
+
+  @IsOptional()
+  search: number;
+
+  @IsOptional()
+  category: string;
+
 }

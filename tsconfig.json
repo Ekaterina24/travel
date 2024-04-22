@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
     "moduleResolution": "nodenext",
+    // "moduleResolution": "Node",
     "module": "nodenext",
+    "resolveJsonModule": true,
+    // "module": "NodeNext",
+    // "module": "CommonJS",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "es2020",
+    "target": "ESNext",
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
@@ -18,5 +22,6 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": ["src/**/*", "ormconfig.ts"]
 }

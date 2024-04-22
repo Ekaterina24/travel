@@ -10,6 +10,7 @@ import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { DayPlaces } from 'src/day_places/day-places.model';
 import { City } from 'src/city/city.model';
 import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
+import { GetCategoryDto } from './dto/get-category.dto';
 
 @Injectable()
 export class PlaceService {
@@ -17,6 +18,10 @@ export class PlaceService {
 
   getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
     return this.placeRepository.getPlaces(dto);
+  }
+  
+  getCategoryList(): Promise<GetCategoryDto[]> {
+    return this.placeRepository.getCategoryList();
     }
     
     getPlaceById(id: string): Promise<Place> {

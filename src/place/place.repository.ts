@@ -12,6 +12,7 @@ import axios from 'axios';
 import { GetPlaceApiDto } from './dto/get-place-api.dto';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
+import { GetCategoryDto } from './dto/get-category.dto';
 
 @Injectable()
 export class PlaceRepository extends Repository<Place> {
@@ -21,12 +22,22 @@ export class PlaceRepository extends Repository<Place> {
   }
 
   async getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
-    const { cityId } = dto;
+    const { cityId, search, category } = dto;
     const query = this.createQueryBuilder('place');
 
     if (cityId) {
       query.andWhere('(place.cityId = :cityId)', {
         cityId: cityId,
+      });
+    }
+
+    if (category) {
+      query.andWhere('place.typePlace = :category', { category: category });
+    }
+
+    if (search) {
+      query.andWhere('(place.name LIKE :search OR place.description LIKE :search)', {
+        search: `%${search}%`,
       });
     }
 
@@ -44,6 +55,21 @@ export class PlaceRepository extends Repository<Place> {
     try {
       const places = await query.getMany();
       return places;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
+  }
+
+  async getCategoryList(): Promise<GetCategoryDto[]> {
+    const query = await this.createQueryBuilder('place')
+    .select('place.typePlace')
+    .distinct(true)
+    .getRawMany();
+console.log(query)
+    // return uniqueTypes.map((item) => item.type);
+    try {
+      const categoryList = query
+      return categoryList;
     } catch (error) {
       throw new InternalServerErrorException();
     }

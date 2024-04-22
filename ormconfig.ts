@@ -1,9 +1,7 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import * as config from 'config';
-
-// const AdminUser = require('nestjs-admin').AdminUserEntity
+const AdminUser = require('nestjs-admin').AdminUserEntity
 export const typeOrmConfig: TypeOrmModuleOptions = {
-  type: 'postgres',
+  type: "postgres",
   host: 'localhost',
   port: 5432,
   username: 'postgres',
@@ -11,5 +9,5 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   database: 'travel',
   autoLoadEntities: true,
   synchronize: true,
-  // entities: [AdminUserEntity]
+  entities: [AdminUser]
 };

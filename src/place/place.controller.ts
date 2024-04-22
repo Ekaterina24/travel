@@ -11,6 +11,7 @@ import { Place } from './place.model';
 import { PlaceService } from './place.service';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
+import { GetCategoryDto } from './dto/get-category.dto';
 
 @Controller('place')
 export class PlaceController {
@@ -30,6 +31,11 @@ export class PlaceController {
     @Query(ValidationPipe) dto: GetPlaceByCityFilterDto
   ): Promise<Place[]> {
     return this.placeService.getPlaces(dto);
+  }
+
+  @Get('category')
+  getCategoryList(): Promise<GetCategoryDto[]> {
+    return this.placeService.getCategoryList();
   }
 
   @Post()
