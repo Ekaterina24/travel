@@ -12,6 +12,7 @@ import { PlaceService } from './place.service';
 import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
 import { GetCategoryDto } from './dto/get-category.dto';
+import { SkipThrottle, Throttle } from '@nestjs/throttler';
 
 @Controller('place')
 export class PlaceController {

@@ -1,6 +1,6 @@
-FROM node:19-alpine
-COPY package.json package-lock.json ./
-RUN npm install
+FROM node:18-alpine
+COPY package.json ./
+RUN npm install --force --legacy-peer-deps
 COPY . .
 EXPOSE 3000
-CMD npm start
+CMD npm run start:dev
