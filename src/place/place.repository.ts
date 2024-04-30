@@ -36,7 +36,7 @@ export class PlaceRepository extends Repository<Place> {
     }
 
     if (search) {
-      query.andWhere('(place.name LIKE :search OR place.description LIKE :search)', {
+      query.andWhere('(LOWER(place.name) LIKE :search OR LOWER(place.description) LIKE :search)', {
         search: `%${search}%`,
       });
     }
