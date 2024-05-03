@@ -21,6 +21,19 @@ export class PlaceRepository extends Repository<Place> {
     super(Place, dataSource.createEntityManager());
   }
 
+  async getPlaceById(id: string): Promise<Place> {
+    const found = await this.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!found) {
+      throw new NotFoundException(`Место с ID ${id} не найдено.`);
+    }
+    return found;
+  }
+
   async getPlaces(dto: GetPlaceByCityFilterDto): Promise<Place[]> {
     const { cityId, search, category } = dto;
     const query = this.createQueryBuilder('place');
@@ -203,18 +216,7 @@ console.log(query)
     return place;
   }
 
-  async getPlaceById(id: string): Promise<Place> {
-    const found = await this.findOne({
-      where: {
-        id: id,
-      },
-    });
-
-    if (!found) {
-      throw new NotFoundException(`Место с ID ${id} не найдено.`);
-    }
-    return found;
-  }
+  
 
   async updateDataFromApi(filterDto: GetPlacesFilterDto): Promise<boolean> {
     const newData = await this.getPlacesFromApi(filterDto);

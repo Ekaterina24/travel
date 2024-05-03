@@ -62,6 +62,7 @@ export class AuthService {
     user: User
   ): Promise<UserProfileDto> {
     const newDto = new UserProfileDto();
+    newDto.id = user.id;
     newDto.username = user.username;
     newDto.email = user.email;
     newDto.scores = user.scores;

@@ -21,12 +21,12 @@ export class TripRepository extends Repository<Trip> {
     createTripDto: CreateTripDto,
     user: User,
   ): Promise<CreateTripDto> {
-    const { date_start, date_finish } = createTripDto;
+    const { date_start, date_finish, city } = createTripDto;
 
     const trip = new Trip();
     trip.date_start = date_start;
     trip.date_finish = date_finish;
-    trip.city = 'Великий Новгород';
+    trip.city = city;
     trip.userId = user.id;
 
     try {

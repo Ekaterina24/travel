@@ -37,7 +37,7 @@ export class AuthController {
     return this.authService.login(authLoginDto);
   }
 
-  @Get('profile')
+  @Get('/profile')
   @UseGuards(AuthGuard())
   getProfile(@Req() req): Promise<UserProfileDto> {
     return this.authService.getProfile(req.user);
