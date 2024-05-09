@@ -1,8 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { AudioRepository } from './audio.repository';
 import { Audio } from './audio.model';
-import { Place } from 'src/place/place.model';
-import { GetPlaceAudioDto } from './dto/get-place-audio.dto';
 
 @Injectable()
 export class AudioService {

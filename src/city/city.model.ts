@@ -1,9 +1,7 @@
 import {
   BaseEntity,
   Column,
-  Double,
   Entity,
-  Long,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 

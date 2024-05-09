@@ -1,15 +1,13 @@
 import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
-import { DataSource, Long, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { Audio, AudioStatus } from './audio.model';
 import * as fs from 'fs';
-import { Place } from 'src/place/place.model';
 import { PlaceRepository } from 'src/place/place.repository';
 import { InjectRepository } from '@nestjs/typeorm';
-import { GetPlaceAudioDto } from './dto/get-place-audio.dto';
 
 @Injectable()
 export class AudioRepository extends Repository<Audio> {
-  private logger = new Logger('AudioRepository');
+ 
   constructor(
     @InjectRepository(PlaceRepository)
     private placeRepository: PlaceRepository,
@@ -22,9 +20,8 @@ export class AudioRepository extends Repository<Audio> {
     'C:/Users/katry/Desktop/Study/vkr/travel/src/audio/data/articles_data.json';
 
   readJSON(filePath: string): Audio[] {
-    let parsedJsonData;
     const data = fs.readFileSync(filePath, 'utf8');
-    parsedJsonData = JSON.parse(data.toString());
+    const parsedJsonData = JSON.parse(data.toString());
 
     return parsedJsonData;
   }

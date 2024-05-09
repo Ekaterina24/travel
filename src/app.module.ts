@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeOrmConfig } from '../ormconfig';
 import { AuthModule } from './auth/auth.module.js';
 import { TripModule } from './trip/trip.module.js';

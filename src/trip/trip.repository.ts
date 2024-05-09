@@ -1,13 +1,12 @@
-import { DataSource, Repository } from 'typeorm';
 import {
-  ConflictException,
   Injectable,
   InternalServerErrorException,
-  Logger,
+  Logger
 } from '@nestjs/common';
-import { Trip } from './trip.model';
-import { CreateTripDto } from './dto/create-trip.dto';
 import { User } from 'src/auth/user.model';
+import { DataSource, Repository } from 'typeorm';
+import { CreateTripDto } from './dto/create-trip.dto';
+import { Trip } from './trip.model';
 
 @Injectable()
 export class TripRepository extends Repository<Trip> {

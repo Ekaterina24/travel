@@ -12,7 +12,7 @@ export class Trip extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => User, (user) => user.id, { eager: false })
+  @ManyToOne(() => User, (user) => user.id, { eager: false })
   userId: number;
 
   @Column()

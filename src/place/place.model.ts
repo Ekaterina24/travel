@@ -4,7 +4,6 @@ import {
   BaseEntity,
   Column,
   Entity,
-  Index,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -13,7 +12,6 @@ import {
 
 @Entity()
 @Unique(['id'])
-// @Index(['id'], {unique: true})
 export class Place extends BaseEntity {
   @PrimaryGeneratedColumn()
   generatedId: number;
@@ -51,10 +49,10 @@ export class Place extends BaseEntity {
   @Column()
   updated_at: Date;
 
-  @ManyToOne((type) => City, (city) => city.generatedId, { eager: false })
+  @ManyToOne(() => City, (city) => city.generatedId, { eager: false })
   cityId: string;
 
-  @OneToMany(type => Audio, audio => audio.place, {eager: true})
+  @OneToMany(() => Audio, audio => audio.place, {eager: true})
   audios: Audio[]
 
   

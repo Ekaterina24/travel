@@ -4,7 +4,6 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
   Column,
-  JoinColumn,
 } from 'typeorm';
 import { Trip } from 'src/trip/trip.model';
 
@@ -13,7 +12,7 @@ export class DayPlaces extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @ManyToOne((type) => Trip, (trip) => trip.id, { eager: false })
+  @ManyToOne(() => Trip, (trip) => trip.id, { eager: false })
   tripId: number;
 
     @Column()

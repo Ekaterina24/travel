@@ -1,18 +1,17 @@
-import { DataSource, Repository } from 'typeorm';
 import {
   ConflictException,
   ForbiddenException,
   Injectable,
   InternalServerErrorException,
-  Logger,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
-import { Place } from './place.model';
 import axios from 'axios';
-import { GetPlaceApiDto } from './dto/get-place-api.dto';
-import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
-import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
+import { DataSource, Repository } from 'typeorm';
 import { GetCategoryDto } from './dto/get-category.dto';
+import { GetPlaceApiDto } from './dto/get-place-api.dto';
+import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
+import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
+import { Place } from './place.model';
 
 @Injectable()
 export class PlaceRepository extends Repository<Place> {

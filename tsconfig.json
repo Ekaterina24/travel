@@ -23,5 +23,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*", "ormconfig.ts"]
+  "include": ["src/**/*", "ormconfig.ts", "test/**/*.ts"]
 }

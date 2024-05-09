@@ -1,8 +1,8 @@
-import { Controller, Post, UsePipes, ValidationPipe, Body, Req, UseGuards, Get, Query } from '@nestjs/common';
-import { TripService } from './trip.service';
-import { CreateTripDto } from './dto/create-trip.dto';
+import { Body, Controller, Get, Post, Req, UseGuards, UsePipes, ValidationPipe } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { CreateTripDto } from './dto/create-trip.dto';
 import { Trip } from './trip.model';
+import { TripService } from './trip.service';
 
 @Controller('trip')
 @UseGuards(AuthGuard())

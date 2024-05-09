@@ -3,7 +3,7 @@ import {
   InternalServerErrorException,
   Logger,
 } from '@nestjs/common';
-import { DataSource, Long, Repository } from 'typeorm';
+import { DataSource, Repository } from 'typeorm';
 import { City } from './city.model';
 import { CreateCityDto } from './dto/create-city.dto';
 

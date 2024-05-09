@@ -21,7 +21,7 @@ export class Audio extends BaseEntity {
   @Column()
   status: AudioStatus;
 
-  @ManyToOne((type) => Place, (place) => place.audios, { eager: false })
+  @ManyToOne(() => Place, (place) => place.audios, { eager: false })
     place: string;
     
     @Column()

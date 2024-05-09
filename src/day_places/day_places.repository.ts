@@ -2,9 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DayPlaces } from './day-places.model';
 import { DataSource, Repository } from 'typeorm';
 import { DayPlacesDto } from './dto/day-places.dto';
-import { Place } from 'src/place/place.model';
 import { User } from 'src/auth/user.model';
-import { DayListDto } from './dto/day-list.dto';
 
 @Injectable()
 export class DayPlacesRepository extends Repository<DayPlaces> {

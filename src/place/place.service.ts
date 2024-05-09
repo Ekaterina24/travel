@@ -1,16 +1,11 @@
 import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
+  Injectable
 } from '@nestjs/common';
+import { GetCategoryDto } from './dto/get-category.dto';
+import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
+import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
 import { Place } from './place.model';
 import { PlaceRepository } from './place.repository';
-import { GetPlaceApiDto } from './dto/get-place-api.dto';
-import { GetPlacesFilterDto } from './dto/get-place-filter.dto';
-import { DayPlaces } from 'src/day_places/day-places.model';
-import { City } from 'src/city/city.model';
-import { GetPlaceByCityFilterDto } from './dto/get-place-by-city-filter.dto';
-import { GetCategoryDto } from './dto/get-category.dto';
 
 @Injectable()
 export class PlaceService {

@@ -1,9 +1,8 @@
-import { Body, Controller, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { DayPlacesService } from './day_places.service';
 import { DayPlacesDto } from './dto/day-places.dto';
 import { DayPlaces } from './day-places.model';
 import { AuthGuard } from '@nestjs/passport';
-import { DayListDto } from './dto/day-list.dto';
 
 @Controller('day-places')
 @UseGuards(AuthGuard())

@@ -1,7 +1,6 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller, Get, Param, Post } from '@nestjs/common';
 import { AudioService } from './audio.service';
 import { Audio } from './audio.model';
-import { GetPlaceAudioDto } from './dto/get-place-audio.dto';
 
 @Controller('audio')
 export class AudioController {

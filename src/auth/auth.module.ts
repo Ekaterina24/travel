@@ -6,10 +6,8 @@ import { UserRepository } from './user.repository';
 import { User } from './user.model';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import * as config from 'config'
 import { JwtStrategy } from './jwt-strategy';
 
-// const jwtConfig = config.get('jwt')
 @Module({
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
