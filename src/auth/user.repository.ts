@@ -1,6 +1,7 @@
 import { DataSource, Repository } from 'typeorm';
 import {
   ConflictException,
+  HttpStatus,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
@@ -9,11 +10,23 @@ import { User } from './user.model';
 import { AuthRegisterDto } from './dto/auth-register.dto';
 import { UserRole } from './user-role.enum';
 import { AuthLoginDto } from './dto/auth-login.dto';
+import { UserProfileDto } from './dto/user-profile.dto';
 
 @Injectable()
 export class UserRepository extends Repository<User> {
   constructor(dataSource: DataSource) {
     super(User, dataSource.createEntityManager());
+  }
+
+  async getUsers(): Promise<UserProfileDto[]> {
+    const query = this.createQueryBuilder('users');
+
+    try {
+      const users = await query.getMany();
+      return users;
+    } catch (error) {
+      throw new InternalServerErrorException();
+    }
   }
 
   async register(authRegisterDto: AuthRegisterDto): Promise<void> {
@@ -33,12 +46,19 @@ export class UserRepository extends Repository<User> {
       console.log(error);
       if (error.code === '23505') {
         // duplicate username, email
-        throw new ConflictException('Такие username и email уже существуют.');
+        // throw new ConflictException('Такие username и email уже существуют.');
+        throw new ConflictException({
+          statusCode: HttpStatus.CONFLICT,
+          message: ['Такие username и email уже существуют.'],
+          error: 'Conflict',
+        });
       } else {
         throw new InternalServerErrorException();
       }
     }
   }
+
+  
 
   private async hashPassword(password: string, salt: string): Promise<string> {
     return bcrypt.hash(password, salt);

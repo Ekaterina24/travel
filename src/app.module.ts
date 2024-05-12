@@ -11,6 +11,9 @@ import { CityModule } from './city/city.module.js';
 import { AudioModule } from './audio/audio.module.js';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { APP_GUARD } from '@nestjs/core';
+import { TypeSubModule } from './type_sub/type_sub.module';
+import { SubUserModule } from './sub_user/sub_user.module';
+import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
@@ -27,6 +30,9 @@ import { APP_GUARD } from '@nestjs/core';
     PlaceModule,
     CityModule,
     AudioModule,
+    TypeSubModule,
+    SubUserModule,
+    ReviewModule,
   ],
   controllers: [AppController],
   providers: [

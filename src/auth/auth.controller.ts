@@ -16,6 +16,9 @@ import { AuthLoginDto } from './dto/auth-login.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { UserProfileDto } from './dto/user-profile.dto';
+import { TokenLoginDto } from './dto/token-login.dto';
+import { User } from './user.model';
+import { UpdateScoresDto } from './dto/update-scores.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -31,7 +34,7 @@ export class AuthController {
   @Post('/login')
   login(
     @Body(ValidationPipe) authLoginDto: AuthLoginDto,
-  ): Promise<{ accessToken: string }> {
+  ): Promise<TokenLoginDto> {
     return this.authService.login(authLoginDto);
   }
 
@@ -39,6 +42,21 @@ export class AuthController {
   @UseGuards(AuthGuard())
   getProfile(@Req() req): Promise<UserProfileDto> {
     return this.authService.getProfile(req.user);
+  }
+
+  @Get('/users')
+  getUsers(): Promise<UserProfileDto[]> {
+    return this.authService.getUsers();
+  }
+
+  @Patch('/scores')
+  @UseGuards(AuthGuard())
+  updateScores(
+    @Req() req,
+    @Body('scores') scores: number,
+  ) {
+    console.log("user:, ", req.user)
+    this.authService.updateScores(req.user, scores);
   }
 
   @Patch('/:id')
@@ -50,4 +68,21 @@ export class AuthController {
   ): Promise<UpdateUserDto> {
     return this.authService.updateUser(id, user);
   }
+
+  @Patch('/:id/username')
+  updateUsername(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('username') username: string,
+  ): Promise<User> {
+    return this.authService.updateUsername(id, username);
+  }
+
+  @Patch('/:id/email')
+  updateEmail(
+    @Param('id', ParseIntPipe) id: number,
+    @Body('email') email: string,
+  ): Promise<User> {
+    return this.authService.updateEmail(id, email);
+  }
+
 }

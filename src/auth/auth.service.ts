@@ -13,6 +13,8 @@ import { User } from './user.model';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UserProfileDto } from './dto/user-profile.dto';
+import { TokenLoginDto } from './dto/token-login.dto';
+import { UpdateScoresDto } from './dto/update-scores.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,7 +28,7 @@ export class AuthService {
     await this.userRepository.register(authRegisterDto);
   }
 
-  async login(authLoginDto: AuthLoginDto): Promise<{ accessToken: string }> {
+  async login(authLoginDto: AuthLoginDto): Promise<TokenLoginDto> {
     const username =
       await this.userRepository.validateUserPassword(authLoginDto);
 
@@ -38,7 +40,8 @@ export class AuthService {
     const accessToken = await this.jwtService.sign(payload);
     this.logger.debug(`Сгенерированный JWT токен: ${JSON.stringify(payload)}`);
 
-    return { accessToken };
+    const tokenDto = new TokenLoginDto(accessToken, 24 * 60 * 60 * 1000)
+    return tokenDto;
   }
 
   async getUserById(id: number): Promise<User> {
@@ -69,6 +72,10 @@ export class AuthService {
     return newDto;
   }
 
+  getUsers(): Promise<UserProfileDto[]> {
+    return this.userRepository.getUsers();
+  }
+
   async updateUser(
     id: number,
     newUser: AuthRegisterDto,
@@ -83,5 +90,27 @@ export class AuthService {
     return newDto;
   }
 
-  
+  async updateUsername(id: number, username: string): Promise<User> {
+    const updateUser = await this.getUserById(id);
+    updateUser.username = username;
+    
+    // this.login(new AuthLoginDto(updateUser.email, updateUser.password))
+    await updateUser.save();
+    return updateUser;
+  }
+
+  async updateEmail(id: number, email: string): Promise<User> {
+    const updateUser = await this.getUserById(id);
+    updateUser.email = email;
+    await updateUser.save();
+    return updateUser;
+  }
+
+  async updateScores(user: User, scores: number) {
+    const updateUser = await this.getUserById(user.id);
+    updateUser.scores = scores;
+    console.log("updateUser: ", updateUser)
+    await updateUser.save();
+   
+  }
 }
