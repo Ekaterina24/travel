@@ -18,7 +18,6 @@ import { AuthGuard } from '@nestjs/passport';
 import { UserProfileDto } from './dto/user-profile.dto';
 import { TokenLoginDto } from './dto/token-login.dto';
 import { User } from './user.model';
-import { UpdateScoresDto } from './dto/update-scores.dto';
 
 @Controller('auth')
 export class AuthController {

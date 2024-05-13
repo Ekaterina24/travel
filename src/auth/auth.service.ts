@@ -1,5 +1,7 @@
 import {
+  HttpStatus,
   Injectable,
+  InternalServerErrorException,
   Logger,
   NotFoundException,
   UnauthorizedException,
@@ -28,20 +30,51 @@ export class AuthService {
     await this.userRepository.register(authRegisterDto);
   }
 
+  // async login(authLoginDto: AuthLoginDto): Promise<TokenLoginDto> {
+  //   const username =
+  //     await this.userRepository.validateUserPassword(authLoginDto);
+
+  //   if (!username) {
+  //     throw new UnauthorizedException('Неверный email или пароль.');
+  //   }
+
+  //   const payload: JwtPayload = { username };
+  //   const accessToken = await this.jwtService.sign(payload);
+  //   this.logger.debug(`Сгенерированный JWT токен: ${JSON.stringify(payload)}`);
+
+  //   const tokenDto = new TokenLoginDto(accessToken, 24 * 60 * 60 * 1000)
+  //   return tokenDto;
+  // }
+
   async login(authLoginDto: AuthLoginDto): Promise<TokenLoginDto> {
-    const username =
-      await this.userRepository.validateUserPassword(authLoginDto);
+    try {
+      const username =
+        await this.userRepository.validateUserPassword(authLoginDto);
 
-    if (!username) {
-      throw new UnauthorizedException('Неверный email или пароль.');
+      if (!username) {
+        throw new UnauthorizedException('Такого пользователя не существует');
+      }
+
+      const payload: JwtPayload = { username };
+      const accessToken = await this.jwtService.sign(payload);
+
+      const tokenDto = new TokenLoginDto(accessToken, 24 * 60 * 60 * 1000);
+
+      return tokenDto;
+    } catch (error) {
+      if (error instanceof UnauthorizedException) {
+        throw new UnauthorizedException({
+          statusCode: HttpStatus.UNAUTHORIZED,
+          message: ['Такого пользователя не существует'],
+          error: 'Unauthorized',
+        });
+      } else {
+        throw new InternalServerErrorException({
+          message: 'Произошла внутренняя ошибка сервера',
+          errorCode: 'INTERNAL_SERVER_ERROR_001',
+        });
+      }
     }
-
-    const payload: JwtPayload = { username };
-    const accessToken = await this.jwtService.sign(payload);
-    this.logger.debug(`Сгенерированный JWT токен: ${JSON.stringify(payload)}`);
-
-    const tokenDto = new TokenLoginDto(accessToken, 24 * 60 * 60 * 1000)
-    return tokenDto;
   }
 
   async getUserById(id: number): Promise<User> {
@@ -61,9 +94,7 @@ export class AuthService {
     return bcrypt.hash(password, salt);
   }
 
-  async getProfile(
-    user: User
-  ): Promise<UserProfileDto> {
+  async getProfile(user: User): Promise<UserProfileDto> {
     const newDto = new UserProfileDto();
     newDto.id = user.id;
     newDto.username = user.username;
@@ -80,10 +111,10 @@ export class AuthService {
     id: number,
     newUser: AuthRegisterDto,
   ): Promise<UpdateUserDto> {
-      await this.userRepository.update(id, newUser); 
-      const user = await this.getUserById(id);
-      user.password = await this.hashPassword(user.password, user.salt);
-      user.save()
+    await this.userRepository.update(id, newUser);
+    const user = await this.getUserById(id);
+    user.password = await this.hashPassword(user.password, user.salt);
+    user.save();
     const newDto = new UpdateUserDto();
     newDto.username = user.username;
     newDto.email = user.email;
@@ -93,7 +124,7 @@ export class AuthService {
   async updateUsername(id: number, username: string): Promise<User> {
     const updateUser = await this.getUserById(id);
     updateUser.username = username;
-    
+
     // this.login(new AuthLoginDto(updateUser.email, updateUser.password))
     await updateUser.save();
     return updateUser;
@@ -109,8 +140,7 @@ export class AuthService {
   async updateScores(user: User, scores: number) {
     const updateUser = await this.getUserById(user.id);
     updateUser.scores = scores;
-    console.log("updateUser: ", updateUser)
+    console.log('updateUser: ', updateUser);
     await updateUser.save();
-   
   }
 }

@@ -1,20 +1,17 @@
-import { IsEmail, IsString, MinLength, MaxLength, Matches } from "class-validator";
+import {
+  IsEmail,
+  IsNotEmpty
+} from 'class-validator';
 
 export class AuthLoginDto {
+  @IsEmail({}, { message: '• Некорректный адрес почты' })
+  email: string;
 
-    @IsEmail()
-    email: string;
-  
-    @IsString()
-    @MinLength(8)
-    @MaxLength(20)
-    @Matches(/((?=.*d)|(?=.*W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
-      message: 'password too weak',
-    })
+  @IsNotEmpty({ message: '• Неверный пароль' })
   password: string;
-  
+
   constructor(email: string, password: string) {
     this.email = email;
     this.password = password;
   }
-  }
+}
