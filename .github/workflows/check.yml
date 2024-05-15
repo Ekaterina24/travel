@@ -33,7 +33,7 @@ jobs:
     steps:
       - name: Set up QEMU
         env:
-          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+          deploy_url: ${{ secrets.DEPLOY }}
         run: |
           curl "$deploy_url"
   # test:
