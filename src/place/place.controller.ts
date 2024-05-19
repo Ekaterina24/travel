@@ -17,15 +17,6 @@ import { GetCategoryDto } from './dto/get-category.dto';
 export class PlaceController {
   constructor(private placeService: PlaceService) {}
 
-  // @Post() Admin
-  // @UsePipes(ValidationPipe)
-  // createTrip(
-  //   @Body() createTripDto: CreateTripDto,
-  //   @Req() req
-  //   ): Promise<CreateTripDto> {
-  //   return this.tripService.createTrip(createTripDto, req.user);
-  // }
-
   @Get()
   getPlaces(
     @Query(ValidationPipe) dto: GetPlaceByCityFilterDto

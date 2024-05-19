@@ -6,7 +6,7 @@ export class GetPlaceByCityFilterDto {
   cityId: number;
 
   @IsOptional()
-  search: number;
+  search: string;
 
   @IsOptional()
   category: string;
