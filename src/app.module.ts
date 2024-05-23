@@ -17,12 +17,12 @@ import { ReviewModule } from './review/review.module';
 
 @Module({
   imports: [
-    ThrottlerModule.forRoot([
-      {
-        ttl: 1000, 
-        limit: 2,
-      },
-    ]),
+    // ThrottlerModule.forRoot([
+    //   {
+    //     ttl: 1000, 
+    //     limit: 2,
+    //   },
+    // ]),
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     TripModule,
@@ -37,10 +37,10 @@ import { ReviewModule } from './review/review.module';
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_GUARD,
-      useClass: ThrottlerGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: ThrottlerGuard,
+    // },
   ],
 })
 export class AppModule {}
