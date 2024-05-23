@@ -1,6 +1,7 @@
 import {
   BaseEntity,
   Column,
+  CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
   Unique,
@@ -32,6 +33,9 @@ export class User extends BaseEntity {
 
   @Column()
   scores: number;
+
+  @CreateDateColumn()
+  createdAt: Date;
 
   async validatePassword(password: String): Promise<boolean> {
     const hash = await bcrypt.hash(password, this.salt);
