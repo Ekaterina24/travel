@@ -58,30 +58,38 @@ export class AuthController {
     this.authService.updateScores(req.user, scores);
   }
 
-  @Patch('/:id')
-  // @Roles(UserRole.Moderator)
-  @UseGuards(AuthGuard())
-  updateUser(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() user: AuthRegisterDto,
-  ): Promise<UpdateUserDto> {
-    return this.authService.updateUser(id, user);
-  }
-
-  @Patch('/:id/username')
-  updateUsername(
-    @Param('id', ParseIntPipe) id: number,
-    @Body('username') username: string,
-  ): Promise<User> {
-    return this.authService.updateUsername(id, username);
-  }
-
-  @Patch('/:id/email')
+  @Patch('/email')
   updateEmail(
-    @Param('id', ParseIntPipe) id: number,
+    @Req() req,
     @Body('email') email: string,
-  ): Promise<User> {
-    return this.authService.updateEmail(id, email);
+  ) {
+    this.authService.updateEmail(req.user, email);
   }
+
+  // @Patch('/:id')
+  // // @Roles(UserRole.Moderator)
+  // @UseGuards(AuthGuard())
+  // updateUser(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() user: AuthRegisterDto,
+  // ): Promise<UpdateUserDto> {
+  //   return this.authService.updateUser(id, user);
+  // }
+
+  // @Patch('/:id/username')
+  // updateUsername(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body('username') username: string,
+  // ): Promise<User> {
+  //   return this.authService.updateUsername(id, username);
+  // }
+
+  // @Patch('/:id/email')
+  // updateEmail(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body('email') email: string,
+  // ): Promise<User> {
+  //   return this.authService.updateEmail(id, email);
+  // }
 
 }

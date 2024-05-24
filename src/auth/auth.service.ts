@@ -130,11 +130,11 @@ export class AuthService {
     return updateUser;
   }
 
-  async updateEmail(id: number, email: string): Promise<User> {
-    const updateUser = await this.getUserById(id);
+  async updateEmail(user: User, email: string) {
+    const updateUser = await this.getUserById(user.id);
     updateUser.email = email;
     await updateUser.save();
-    return updateUser;
+    // return updateUser;
   }
 
   async updateScores(user: User, scores: number) {
