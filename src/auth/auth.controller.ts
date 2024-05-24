@@ -59,6 +59,7 @@ export class AuthController {
   }
 
   @Patch('/email')
+  @UseGuards(AuthGuard())
   updateEmail(
     @Req() req,
     @Body('email') email: string,
