@@ -1,8 +1,9 @@
-import { Body, Controller, Get, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Query, Req, UseGuards } from '@nestjs/common';
 import { DayPlacesService } from './day_places.service';
 import { DayPlacesDto } from './dto/day-places.dto';
 import { DayPlaces } from './day-places.model';
 import { AuthGuard } from '@nestjs/passport';
+import { DeleteResult } from 'typeorm';
 
 @Controller('day-places')
 @UseGuards(AuthGuard())
@@ -25,5 +26,8 @@ export class DayPlacesController {
     }
 
 
-    
+    @Delete('/:id')
+    deletePlaceById(@Param('id') id: string): Promise<DeleteResult> {
+      return this.dayPlacesService.deletePlaceByRecordId(id);
+    }
 }
