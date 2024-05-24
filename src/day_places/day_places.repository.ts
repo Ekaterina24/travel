@@ -10,12 +10,13 @@ export class DayPlacesRepository extends Repository<DayPlaces> {
     super(DayPlaces, dataSource.createEntityManager());
   }
 
-  async addPlaceToDay(dto: DayPlacesDto): Promise<DayPlaces> {
+  async addPlaceToDay(user: User, dto: DayPlacesDto): Promise<DayPlaces> {
     const { placeId, tripId, dateVisiting } = dto;
     let dayPlace = new DayPlaces();
     dayPlace.placeId = placeId;
     dayPlace.tripId = tripId;
     dayPlace.dateVisiting = dateVisiting;
+    dayPlace.userId = user.id;
     await dayPlace.save();
     return dayPlace;
   }

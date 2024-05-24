@@ -9,8 +9,8 @@ import { DeleteResult } from 'typeorm';
 export class DayPlacesService {
   constructor(private dayPlacesRepository: DayPlacesRepository) {}
 
-  async addPlaceToDay(dto: DayPlacesDto): Promise<DayPlaces> {
-    return this.dayPlacesRepository.addPlaceToDay(dto);
+  async addPlaceToDay(user: User, dto: DayPlacesDto): Promise<DayPlaces> {
+    return this.dayPlacesRepository.addPlaceToDay(user, dto);
   }
 
   getDayPlacesByUser(user: User, date: string): Promise<DayPlaces[]> {
@@ -18,8 +18,12 @@ export class DayPlacesService {
   }
 
   async deletePlaceByRecordId(
+    user: User,
     id: string 
   ): Promise<DeleteResult> {
-    return await this.dayPlacesRepository.delete({placeId: id});
+    // const query = this.dayPlacesRepository.createQueryBuilder('day_places')
+    // .where('day_places.userId = :userId', { userId: user.id })
+
+    return await this.dayPlacesRepository.delete({placeId: id, userId: user.id});
   }
 }

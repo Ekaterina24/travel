@@ -12,9 +12,10 @@ export class DayPlacesController {
 
     @Post()
     addPlaceToDay(
+      @Req() req,
         @Body() dto: DayPlacesDto
     ): Promise<DayPlaces> {
-        return this.dayPlacesService.addPlaceToDay(dto)
+        return this.dayPlacesService.addPlaceToDay(req.user, dto)
     }
 
     @Get()
@@ -27,7 +28,10 @@ export class DayPlacesController {
 
 
     @Delete('/:id')
-    deletePlaceById(@Param('id') id: string): Promise<DeleteResult> {
-      return this.dayPlacesService.deletePlaceByRecordId(id);
+    deletePlaceById(
+      @Req() req,
+      @Param('id') id: string
+    ): Promise<DeleteResult> {
+      return this.dayPlacesService.deletePlaceByRecordId(req.user, id);
     }
 }

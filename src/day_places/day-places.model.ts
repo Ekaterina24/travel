@@ -6,6 +6,7 @@ import {
   Column,
 } from 'typeorm';
 import { Trip } from 'src/trip/trip.model';
+import { User } from 'src/auth/user.model';
 
 @Entity()
 export class DayPlaces extends BaseEntity {
@@ -20,4 +21,8 @@ export class DayPlaces extends BaseEntity {
 
   @Column()
   dateVisiting: string;
+
+  @Column()
+    @ManyToOne(() => User, (user) => user.id, { eager: false })
+    userId: number;
 }
